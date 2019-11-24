@@ -1,0 +1,33 @@
+import sys
+from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog
+from random import choice
+from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtCore import Qt
+
+
+class MyWidget(QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('UI.ui',self)
+        self.pushButton.clicked.connect(self.run)
+
+    def run(self):
+        qp = QPainter()
+        qp.begin(self)
+        self.drawFlag(qp)
+        qp.end()
+
+    def drawFlag(self, qp):
+        qp.setBrush(QColor(253, 233, 16))
+        for i in range(10):
+            x = choice(range(350))
+            y = choice(range(260))
+            length = choice(range(min[(300 - y), y]))
+            qp.drawEllipse(x, y, length, length)
+
+
+app = QApplication(sys.argv)
+ex = MyWidget()
+ex.show()
+sys.exit(app.exec_())
